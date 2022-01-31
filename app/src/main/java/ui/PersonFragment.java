@@ -8,24 +8,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.instagram.R;
 import com.example.instagram.databinding.FragmentPersonBinding;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class PersonFragment extends Fragment {
     private AdapterViewPager adapter;
     private ArrayList<Fragment> list = new ArrayList<>();
     private FragmentPersonBinding binding;
-    private int[] icon = {R.drawable.ic_grid_icon, R.drawable.ic_tags_icon};
-
-//    private AdapterViewPager adapter;
-//    private ArrayList<Fragment> list = new ArrayList<>();
-//    private FragmentPersonBinding binding;
 
 
     @Override
@@ -40,81 +36,42 @@ public class PersonFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViewPager();
-        initTab();
     }
 
     private void initViewPager() {
-        adapter = new AdapterViewPager(this);
+        adapter = new AdapterViewPager(getChildFragmentManager(), 0);
         list.add(new ImageFragment());
         list.add(new Image2Fragment());
         adapter.setFragments(list);
         binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        Objects.requireNonNull(binding.tabLayout.getTabAt(0)).setIcon(R.drawable.ic_grid_icon);
+        Objects.requireNonNull(binding.tabLayout.getTabAt(1)).setIcon(R.drawable.ic_tags_icon);
     }
 
-    private void initTab() {
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position)
-                -> tab.setIcon(icon[position])).attach();
-    }
-
-    class AdapterViewPager extends FragmentStateAdapter {
+    class AdapterViewPager extends FragmentPagerAdapter {
 
         private ArrayList<Fragment> fragments = new ArrayList<>();
 
-        public void setFragments(ArrayList<Fragment> fragments) {
-            this.fragments = fragments;
+        public AdapterViewPager(@NonNull FragmentManager fm, int behavior) {
+            super(fm, behavior);
         }
 
-        public AdapterViewPager(@NonNull Fragment fragment) {
-            super(fragment);
+        public void setFragments(ArrayList<Fragment> listFragment) {
+            fragments.addAll(listFragment);
         }
-
 
         @NonNull
         @Override
-        public Fragment createFragment(int position) {
+        public Fragment getItem(int position) {
             return fragments.get(position);
         }
 
         @Override
-        public int getItemCount() {
+        public int getCount() {
             return fragments.size();
         }
+
     }
-//        ArrayList<Fragment> arraylist = new ArrayList<>();
-//        arraylist.add(new PersonFragment());
-//        arraylist.add(new PersonFragment());
-//        AdapterViewPager adapterViewPager = new AdapterViewPager(getChildFragmentManager(), 1);
-//        adapterViewPager.setFragments(arraylist);
-//        binding.viewPager.setAdapter(adapterViewPager);
-//        binding.tabLayout.setupWithViewPager(binding.viewPager);
 }
-
-//    class AdapterViewPager extends FragmentPagerAdapter {
-//
-//        private ArrayList<Fragment> fragments = new ArrayList<>();
-//
-//        public AdapterViewPager(@NonNull FragmentManager fm, int behavior) {
-//            super(fm, behavior);
-//        }
-//
-//        public void setFragments(ArrayList<Fragment> listFragment) {
-//            fragments.addAll(listFragment);
-//        }
-//
-//        @NonNull
-//        @Override
-//        public Fragment getItem(int position) {
-//            return fragments.get(position);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return fragments.size();
-//        }
-//
-//        public CharSequence getPageTitle(int position){
-//            return "fragment" + position ;
-//        }
-
-
 
