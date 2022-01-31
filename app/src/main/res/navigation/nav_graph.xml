@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="ui.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/likeFragment"
+        android:name="ui.LikeFragment"
+        android:label="fragment_like"
+        tools:layout="@layout/fragment_like" />
+    <fragment
+        android:id="@+id/personFragment"
+        android:name="ui.PersonFragment"
+        android:label="fragment_person"
+        tools:layout="@layout/fragment_person" />
+    <fragment
+        android:id="@+id/photoFragment2"
+        android:name="ui.ImageFragment"
+        android:label="fragment_photo"
+        tools:layout="@layout/fragment_image" />
+    <fragment
+        android:id="@+id/photo2Fragment"
+        android:name="ui.Image2Fragment"
+        android:label="fragment_photo2"
+        tools:layout="@layout/fragment_image2" />
+</navigation>
